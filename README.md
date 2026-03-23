@@ -1,7 +1,3 @@
-This updated `README.md` incorporates the new **Advanced Inference** workflow, highlights the mandatory data flags, and documents the new model artifacts (`encoder.pkl` and `scaler.pkl`) generated during training.
-
----
-
 # E-Commerce Customer Segmentation
 
 An end-to-end Machine Learning pipeline for segmenting e-commerce customers using **KMeans**, **Gaussian Mixture Models (GMM)**, and **DBSCAN**. This project features a modular architecture designed for easy transitions between training and production-style batch inference.
@@ -58,7 +54,8 @@ This repository provides a system to analyze customer behavior and categorize us
 The project follows a linear pipeline: **Train → Inference → Visualize**.
 
 ### 1. Training & Artifact Generation
-Train the models and save the feature engineering artifacts (`encoder.pkl`, `scaler.pkl`). **Note:** You must provide the data path explicitly.
+Train the models and save the feature engineering artifacts (`preprocessor_encoder.pkl`, `preprocessor_scaler.pkl`). 
+**Note:** You must provide the data path explicitly.
 ```bash
 python entrypoint/train.py --data "data/raw/E-commerce Customer Behavior - Sheet1.csv"
 ```
@@ -96,6 +93,6 @@ pytest tests/
 
 ## ⚠️ Troubleshooting & Notes
 * **Mandatory Arguments:** Ensure you provide the `--data` flag for training and the `--input` flag for inference. Omitting these will result in a `TypeError`.
-* **Artifact Dependency:** `inference.py` requires `encoder.pkl` and `scaler.pkl` to exist in the `models/` folder. If they are missing, re-run `train.py`.
+* **Artifact Dependency:** `inference.py` requires `preprocessor_encoder.pkl` and `preprocessor_scaler.pkl` to exist in the `models/` folder.
 * **Feature Consistency:** The models are trained on 7 specific features: `Age`, `Total Spend`, `Days Since Last Purchase`, `Discount Applied`, and 3 `Membership Type` categories.
 * **Windows Warnings:** `UserWarning` regarding physical cores (Loky) can be safely ignored.
