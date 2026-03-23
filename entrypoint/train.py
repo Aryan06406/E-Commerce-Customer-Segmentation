@@ -134,6 +134,13 @@ def main(argv: list[str] | None = None) -> int:
 
     logger.info("X_train: %s  |  X_test: %s", X_train.shape, X_test.shape)
 
+    # Persist encoder + scaler so inference can fully reproduce preprocessing
+    import joblib
+    joblib.dump(encoder, model_dir / "preprocessor_encoder.pkl")
+    joblib.dump(scaler,  model_dir / "preprocessor_scaler.pkl")
+    logger.info("Saved encoder → models/preprocessor_encoder.pkl")
+    logger.info("Saved scaler  → models/preprocessor_scaler.pkl")
+
     # ------------------------------------------------------------------
     # 2. Train
     # ------------------------------------------------------------------
@@ -178,7 +185,7 @@ def main(argv: list[str] | None = None) -> int:
     # 4. Cluster profiles (interpretability)
     # ------------------------------------------------------------------
     logger.info("=" * 60)
-    logger.info("STEP 4 - Cluster Profiles")
+    logger.info("STEP 4 – Cluster Profiles")
     logger.info("=" * 60)
 
     for model_name, (_, labels) in results.items():

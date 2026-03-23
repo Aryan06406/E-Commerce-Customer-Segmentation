@@ -128,15 +128,30 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     # ------------------------------------------------------------------
-    # 2. Optional light preprocessing for raw inputs
+    # 2. Full preprocessing for raw inputs (OHE + scaling)
     # ------------------------------------------------------------------
     if not args.preprocessed:
-        logger.info("Applying lightweight preprocessing (imputation only) to raw input.")
-        # For a proper production system, the encoder & scaler should be
-        # persisted alongside models.  Here we apply only the imputation
-        # step and leave OHE / scaling to the pipeline's internal scaler.
-        from src.pipelines.feature_eng import _fill_missing
-        df_raw = _fill_missing(df_raw)
+        import joblib
+        from src.pipelines.feature_eng import preprocess_new_data
+
+        encoder_path = model_dir / "preprocessor_encoder.pkl"
+        scaler_path  = model_dir / "preprocessor_scaler.pkl"
+
+        if not encoder_path.exists() or not scaler_path.exists():
+            logger.error(
+                "Preprocessor artefacts not found in '%s'."
+                "  Expected: preprocessor_encoder.pkl, preprocessor_scaler.pkl"
+                "  Run 'python entrypoint/train.py' first to generate them.",
+                model_dir,
+            )
+            return 1
+
+        encoder = joblib.load(encoder_path)
+        scaler  = joblib.load(scaler_path)
+        logger.info("Loaded preprocessor encoder + scaler from '%s'.", model_dir)
+
+        df_raw = preprocess_new_data(df_raw, encoder, scaler)
+        logger.info("Preprocessing complete. Shape: %s", df_raw.shape)
 
     # ------------------------------------------------------------------
     # 3. Run inference
