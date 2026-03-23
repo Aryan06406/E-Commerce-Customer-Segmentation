@@ -19,17 +19,17 @@ Usage
 
 Pipeline
 --------
-    1.  Load & preprocess raw data (feature_eng)
-    2.  Train requested models     (training)
-    3.  Evaluate on train split    (evaluation)
-    4.  Print cluster size summary (utils)
+    1.  Load & preprocess raw data 
+    2.  Train requested models     
+    3.  Evaluate on train split    
+    4.  Print cluster size summary 
     5.  Save all artefacts to models/
 
 Exit codes
 ----------
-    0  – success
-    1  – data / file error
-    2  – training error
+    0  - success
+    1  - data / file error
+    2  - training error
 """
 
 from __future__ import annotations
@@ -182,10 +182,10 @@ def main(argv: list[str] | None = None) -> int:
     print_report(eval_df)
 
     # ------------------------------------------------------------------
-    # 4. Cluster profiles (interpretability)
+    # 4. Cluster profiles
     # ------------------------------------------------------------------
     logger.info("=" * 60)
-    logger.info("STEP 4 – Cluster Profiles")
+    logger.info("STEP 4 - Cluster Profiles")
     logger.info("=" * 60)
 
     for model_name, (_, labels) in results.items():

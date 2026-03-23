@@ -5,11 +5,9 @@ Clustering quality metrics used in notebook 3.
 
 Metrics implemented
 -------------------
-    Silhouette Score           – higher is better  (range -1 → 1)
-    Davies-Bouldin Index       – lower is better   (range  0 → ∞)
-    Calinski-Harabasz Score    – higher is better  (range  0 → ∞)
-
-All functions gracefully skip noise points (label == -1) for DBSCAN output.
+    Silhouette Score           - higher is better  (range -1 → 1)
+    Davies-Bouldin Index       - lower is better   (range  0 → ∞)
+    Calinski-Harabasz Score    - higher is better  (range  0 → ∞)
 
 Public API
 ----------
@@ -44,20 +42,17 @@ def evaluate_clustering(
     prefix: str = "",
 ) -> dict:
     """
-    Compute Silhouette, Davies-Bouldin, and Calinski-Harabasz scores,
-    automatically masking out DBSCAN noise points (label == -1).
+    Compute Silhouette, Davies-Bouldin, and Calinski-Harabasz scores.
 
     Parameters
     ----------
-    X       : feature matrix (unscaled or scaled – must be consistent with
-              how labels were produced)
+    X       : feature matrix (unscaled or scaled - must be consistent with how labels were produced)
     labels  : cluster assignment array of shape (n_samples,)
     prefix  : optional string prefix added to dict keys, e.g. "train_" or "test_"
 
     Returns
     -------
     dict with keys: <prefix>silhouette, <prefix>davies_bouldin, <prefix>calinski_harabasz
-    Each value is float | None (None when there are fewer than 2 valid clusters).
     """
     X_arr = X.values if isinstance(X, pd.DataFrame) else np.asarray(X)
 
@@ -98,8 +93,7 @@ def full_report(
     all_results: Dict[str, tuple],
 ) -> pd.DataFrame:
     """
-    Build a human-readable comparison table for all three models on both
-    train and test splits.
+    Build a comparison table for all three models on both train and test splits.
 
     Parameters
     ----------
@@ -110,7 +104,7 @@ def full_report(
 
     Returns
     -------
-    pd.DataFrame with rows = models, columns = metric × split.
+    pd.DataFrame with rows = models, columns = metric x split.
 
     Example
     -------
@@ -132,7 +126,6 @@ def full_report(
         X_tr = X_train[FEATURES]
         row  = {"model": model_name}
 
-        # Training metrics
         row.update(evaluate_clustering(X_tr, train_labels, prefix="train_"))
 
         rows.append(row)
@@ -141,7 +134,6 @@ def full_report(
 
 
 def print_report(report: pd.DataFrame) -> None:
-    """Pretty-print the evaluation report to stdout."""
     pd.set_option("display.float_format", "{:.4f}".format)
     pd.set_option("display.max_columns", 10)
     pd.set_option("display.width", 120)
@@ -153,7 +145,7 @@ def print_report(report: pd.DataFrame) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Cluster profile helper (from notebook 3)
+# Cluster profile helper function (from notebook 3)
 # ---------------------------------------------------------------------------
 
 def cluster_profile(
@@ -162,7 +154,7 @@ def cluster_profile(
     profile_cols: list[str] | None = None,
 ) -> pd.DataFrame:
     """
-    Return mean feature values per cluster (noise points excluded).
+    Return mean feature values per cluster.
 
     Parameters
     ----------
@@ -180,6 +172,6 @@ def cluster_profile(
 
     df = X_train.copy()
     df["_cluster"] = labels
-    df = df[df["_cluster"] != -1]   # exclude noise
+    df = df[df["_cluster"] != -1]  
 
     return df.groupby("_cluster")[profile_cols].mean().round(4)

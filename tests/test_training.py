@@ -16,7 +16,7 @@ Strategy
 *   All tests use synthetic in-memory DataFrames that mimic the raw CSV
     schema, so no actual data files are required on disk.
 *   Model-persistence tests write to a tmp_path fixture (pytest-managed
-    temp dir) – no artefacts leak to the project's models/ directory.
+    temp dir) - no artefacts leak to the project's models/ directory.
 *   Parametrised tests cover all three clustering algorithms.
 """
 
@@ -30,7 +30,7 @@ import pandas as pd
 import pytest
 from sklearn.pipeline import Pipeline
 
-# Bring project root onto sys.path so imports work from any CWD
+
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -57,7 +57,7 @@ from src.utils import assert_features_present, cluster_size_summary
 # Fixtures
 # ===========================================================================
 
-N_ROWS = 200   # enough for meaningful clustering; keep tests fast
+N_ROWS = 200  
 
 def _make_raw_df(n: int = N_ROWS, seed: int = 0) -> pd.DataFrame:
     """
@@ -305,14 +305,13 @@ class TestEvaluateClustering:
     def test_handles_noise_labels(self):
         X, labels = self._dummy_data()
         labels_with_noise = labels.copy()
-        labels_with_noise[:10] = -1       # inject noise
+        labels_with_noise[:10] = -1     
         result = evaluate_clustering(X, labels_with_noise)
-        # Should still return values (noise points masked out)
         assert result["silhouette"] is not None
 
     def test_returns_none_for_single_cluster(self):
         X = np.random.randn(50, 3)
-        labels = np.zeros(50, dtype=int)  # all same cluster
+        labels = np.zeros(50, dtype=int) 
         result = evaluate_clustering(X, labels)
         assert result["silhouette"] is None
 

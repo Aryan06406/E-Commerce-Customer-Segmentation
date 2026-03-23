@@ -9,17 +9,16 @@ Public API
     load_pipeline(path)                     -> sklearn Pipeline
     predict_kmeans(X, model_dir)            -> np.ndarray of cluster labels
     predict_gmm(X, model_dir)               -> np.ndarray of cluster labels
-    predict_dbscan(X, model_dir)            -> np.ndarray of cluster labels (−1 = outlier)
+    predict_dbscan(X, model_dir)            -> np.ndarray of cluster labels (-1 = outlier)
     predict_all(X, model_dir)               -> dict[str, np.ndarray]
     predict_gmm_proba(X, model_dir)         -> np.ndarray of shape (n_samples, n_components)
 
 Notes
 -----
-*   All predict_* functions accept a DataFrame with **either** the raw
-    7-feature subset (already preprocessed) *or* a wider DataFrame from
+*   All predict_* functions accept a DataFrame with either the raw 
+    7-feature subset (already preprocessed) or a wider DataFrame from
     which FEATURES are extracted automatically.
-*   The pipelines carry their own StandardScaler as the first step, so
-    do **not** re-scale before calling these functions.
+*   The pipelines carry their own StandardScaler as the first step, so do not re-scale before calling these functions.
 """
 
 from __future__ import annotations
@@ -57,7 +56,7 @@ def load_pipeline(path: str | Path) -> Pipeline:
 
     Raises
     ------
-    FileNotFoundError – if the .pkl file does not exist.
+    FileNotFoundError - if the .pkl file does not exist.
     """
     path = Path(path)
     if not path.exists():
@@ -98,8 +97,7 @@ def predict_kmeans(
 
     Parameters
     ----------
-    X         : DataFrame that includes the 7 FEATURES columns (unscaled –
-                the pipeline's internal StandardScaler handles scaling).
+    X         : DataFrame that includes the 7 FEATURES columns
     model_dir : directory containing the .pkl files.
 
     Returns
@@ -118,7 +116,7 @@ def predict_gmm(
     model_dir: str | Path = MODEL_DIR_DEFAULT,
 ) -> np.ndarray:
     """
-    Assign GMM cluster labels (hard assignment via argmax) to *X*.
+    Assign GMM cluster labels to *X*.
 
     Returns
     -------
@@ -145,7 +143,7 @@ def predict_gmm_proba(
 
     Returns
     -------
-    np.ndarray of shape (n_samples, n_components) – each row sums to 1.
+    np.ndarray of shape (n_samples, n_components) - each row sums to 1.
     """
     pipeline = load_pipeline(_model_path("gmm", Path(model_dir)))
     X_feat   = _extract_features(X)

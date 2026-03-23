@@ -177,10 +177,10 @@ def build_preprocessed_dataset(
 
     Returns
     -------
-    X_train  : pd.DataFrame  – preprocessed training features (all columns)
-    X_test   : pd.DataFrame  – preprocessed test features (all columns)
-    encoder  : OneHotEncoder – fitted on training data
-    scaler   : StandardScaler – fitted on training data
+    X_train  : pd.DataFrame   -  preprocessed training features (all columns)
+    X_test   : pd.DataFrame   - preprocessed test features (all columns)
+    encoder  : OneHotEncoder  - fitted on training data
+    scaler   : StandardScaler - fitted on training data
 
     Notes
     -----
@@ -198,7 +198,7 @@ def build_preprocessed_dataset(
     _assert_no_nulls(df)
 
     # ---- Encode + scale ----------------------------------------------------
-    # Identify which num cols are present (defensive: exclude any unknown cols)
+    # Identify which num cols are present 
     present_num_cols = [c for c in NUMERICAL_COLS if c in df.columns]
     present_cat_cols = [c for c in CATEGORICAL_COLS if c in df.columns]
 

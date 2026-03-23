@@ -34,8 +34,8 @@ def generate_plot():
         labels = pipeline.named_steps["kmeans"].predict(X_final)
     elif args.model == "gmm":
         labels = pipeline.named_steps["gaussianmixture"].predict(X_final)
-    else: # dbscan
-        labels = pipeline.fit_predict(X_final)
+    else: 
+        labels = pipeline.fit_predict(X_final) # dbscan
     
     # 3. Reduce to 2D using PCA
     pca = PCA(n_components=2)

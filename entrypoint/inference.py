@@ -8,7 +8,7 @@ Usage
     # run all three models on a CSV and print predictions
     python entrypoint/inference.py --input data/new_customers.csv
 
-    # run only KMeans and save output to a file
+    # For example: run only KMeans and save output to a file
     python entrypoint/inference.py --input data/new_customers.csv --models kmeans --output results/
 
     # specify a custom model directory
@@ -22,9 +22,9 @@ For each requested model, a CSV is written to --output (default: results/) with:
 
 Exit codes
 ----------
-    0  – success
-    1  – file / path error
-    2  – inference error
+    0  - success
+    1  - file / path error
+    2  - inference error
 """
 
 from __future__ import annotations
@@ -102,7 +102,7 @@ def _load_input(path: str | Path, preprocessed: bool) -> pd.DataFrame:
         raise FileNotFoundError(f"Input file not found: '{path}'")
 
     df = pd.read_csv(path)
-    logger.info("Loaded input: %d rows × %d cols from '%s'", *df.shape, path)
+    logger.info("Loaded input: %d rows x %d cols from '%s'", *df.shape, path)
 
     if preprocessed:
         assert_features_present(df, FEATURES)

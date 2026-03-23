@@ -105,7 +105,6 @@ def train_kmeans(
     Returns
     -------
     (kmeans_pipeline, labels)
-        labels – cluster assignments for X_train[FEATURES]
     """
     X = X_train[FEATURES]
     logger.info("Training KMeans  params=%s  n_samples=%d", KMEANS_PARAMS, len(X))
@@ -128,7 +127,6 @@ def train_gmm(
     Returns
     -------
     (gmm_pipeline, labels)
-        labels – soft-assignment (predict) cluster labels for X_train[FEATURES]
     """
     X = X_train[FEATURES]
     logger.info("Training GMM  params=%s  n_samples=%d", GMM_PARAMS, len(X))
@@ -182,8 +180,6 @@ def train_all(
     model_dir: str | Path = MODEL_DIR_DEFAULT,
 ) -> Dict[str, Tuple[Pipeline, np.ndarray]]:
     """
-    Convenience wrapper – trains all three pipelines in sequence.
-
     Returns
     -------
     {
