@@ -1,0 +1,21 @@
+data:
+  raw_path: "data/raw/E-commerce Customer Behavior - Sheet1.csv"
+  test_size: 0.2
+  random_state: 42
+
+models:
+  kmeans:
+    n_clusters: 7
+    n_init: 10
+    random_state: 42
+  gmm:
+    n_components: 7
+    covariance_type: "full"
+    random_state: 42
+  dbscan:
+    eps: 0.8
+    min_samples: 5
+
+paths:
+  models_dir: "models"
+  results_dir: "results"
