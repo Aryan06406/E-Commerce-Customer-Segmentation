@@ -42,18 +42,12 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 CATEGORICAL_COLS: list[str] = [
-    "Gender",
-    "City",
-    "Membership Type",
-    "Satisfaction Level",
+    "Membership Type"
 ]
 
 # Includes bool columns – sklearn's StandardScaler handles bool/int64/float64
 NUMERICAL_COLS: list[str] = [
-    "Customer ID",
     "Age",
-    "Items Purchased",
-    "Average Rating",
     "Days Since Last Purchase",
     "Total Spend",
     "Discount Applied",   # bool in raw CSV → treated as 0/1 after cast
@@ -71,7 +65,7 @@ FEATURES: list[str] = [
 ]
 
 # Columns to drop before modelling (identifiers, non-informative)
-_DROP_COLS: list[str] = ["Customer ID"]
+_DROP_COLS: list[str] = ["Customer ID", 'Satisfaction Level', 'Items Purchased', 'Average Rating']
 
 
 # ---------------------------------------------------------------------------

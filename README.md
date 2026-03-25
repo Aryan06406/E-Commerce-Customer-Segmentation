@@ -85,6 +85,40 @@ pytest tests/
 ```
 
 ## 📊 Model Comparison Details
+
+### Feature Sets Used
+
+Two feature configurations were evaluated across all models:
+
+| Feature | Set Features | Count |
+| **FS-1** (Core) | `Age`, `Total Spend`, `Days Since Last Purchase`, `Discount Applied`, `Membership Type_Bronze`, `Membership Type_Gold`, `Membership Type_Silver` | 7 |
+| **FS-2** (Extended) | All of FS-1 **+** `Satisfaction Level_Neutral`, `Satisfaction Level_Satisfied`, `Satisfaction Level_Unsatisfied`, `Items Purchased`, `Average Rating` | 12 |
+
+### Results Comparison: Feature Set 1 vs Feature Set 2
+
+> **Metrics:** Silhouette Score ↑ (higher = better), Davies-Bouldin Index ↓ (lower = better).  
+> DBSCAN does not support `predict()` on held-out data, so test scores are not applicable (N/A).
+
+| Model      | Feature Set     | Clusters | Sil. Score (Train) | Sil. Score (Test) | DB Index (Train) | DB Index (Test) |
+| :--------: | :-------------: | :------: | :----------------: | :---------------: | :--------------: | :-------------: |
+| **KMeans** | FS-1 (Core)     |     7    | 0.8199             |       0.8195      |      0.2579      |      0.2547     |
+| **KMeans** | FS-2 (Extended) |     8    | 0.7251             |       0.7651      |      0.4148      |      0.2873     |
+| **GMM**    | FS-1 (Core)     |     7    | 0.8199             |       0.8195      |      0.2579      |      0.2547     |
+| **GMM**    | FS-2 (Extended) |     7    | 0.7872             |       0.7838      |      0.3097      |      0.3103     |
+| **DBSCAN** | FS-1 (Core)     |   Auto   | 0.8116             |        N/A        |      0.8733      |       N/A       |
+| **DBSCAN** | FS-2 (Extended) |   Auto   | 0.7163             |        N/A        |      1.1423      |       N/A       |
+
+### Key Takeaways
+
+* **FS-1 consistently outperforms FS-2** on Silhouette Score across all three models, suggesting the 7 core features produce tighter, more well-separated clusters.
+* **KMeans & GMM** deliver identical scores on FS-1, both achieving the highest Silhouette (0.8199 train / 0.8195 test) and lowest Davies-Bouldin (0.2579 / 0.2547) — indicating GMM converges to the same hard partition as KMeans on this feature space.
+* **GMM on FS-2** improves meaningfully over KMeans on FS-2 (Silhouette 0.787 vs 0.725 train), showing GMM's probabilistic assignment handles the richer feature space better.
+* **DBSCAN** achieves a competitive Silhouette on FS-1 (0.8116) but has a noticeably high Davies-Bouldin (0.8733), reflecting its noise cluster (label `-1`) distorting inter-cluster distance metrics. Its performance degrades further on FS-2.
+* **Recommendation:** Use **FS-1 with KMeans or GMM** for the most reliable production segmentation. Reserve DBSCAN for outlier/anomaly detection use cases regardless of feature set.
+
+---
+
+### Model Characteristics
 | Model       | Use Case             | Characteristics                                        |
 | :---------: | :------------------: | :----------------------------------------------------: |
 | **KMeans**  | General Segmentation | Efficient, assumes spherical clusters.                 |

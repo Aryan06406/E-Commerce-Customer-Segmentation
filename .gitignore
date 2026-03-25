@@ -29,6 +29,7 @@ Thumbs.db
 .vscode/
 .idea/
 *.sublime-
+.hintrc
 
 # Ignore any other files you don't want to track
 .github/
