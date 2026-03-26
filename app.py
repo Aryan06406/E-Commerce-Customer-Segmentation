@@ -2,9 +2,11 @@ import os
 import joblib
 import numpy as np
 import pandas as pd
+from flask_cors import CORS
 from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
+CORS(app)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "gmm_customer_segmentation.pkl")
