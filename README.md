@@ -51,7 +51,7 @@ This repository provides a system to analyze customer behavior and categorize us
 
 4.  **Data source:**    
     ```
-    Download he dataset from 
+    Download the dataset from 
     https://www.kaggle.com/datasets/uom190346a/e-commerce-customer-behavior-dataset
     and place the csv file in the data/raw/ folder    
     ```
