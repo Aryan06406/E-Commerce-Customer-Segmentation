@@ -37,7 +37,7 @@ This repository provides a system to analyze customer behavior and categorize us
     git clone https://github.com/yourusername/E-Commerce-Customer-Segmentation.git
     cd E-Commerce-Customer-Segmentation
     ```
-
+    
 2.  **Set up a virtual environment:**
     ```bash
     python -m venv .venv
@@ -47,6 +47,13 @@ This repository provides a system to analyze customer behavior and categorize us
 3.  **Install dependencies:**
     ```bash
     pip install -r requirements.txt
+    ```
+
+4.  **Data source:**    
+    ```
+    Download he dataset from 
+    https://www.kaggle.com/datasets/uom190346a/e-commerce-customer-behavior-dataset
+    and place the csv file in the data/raw/ folder    
     ```
 
 ## 🏃 Usage Guide
